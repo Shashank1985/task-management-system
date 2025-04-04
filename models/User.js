@@ -54,4 +54,26 @@ UserSchema.pre('save', async function(next) {
     } catch (error) {
       next(error);
     }
-  });
+});
+
+//compare input password's hash to stored password
+UserSchema.methods.comparePassword = async function(inputPassword) {
+    return await bcrypt.compare(inputPassword, this.password);
+};
+
+//generate JWT token on login
+
+UserSchema.methods.generateAuthToken = function (){
+    const jwt = require('jsonwebtoken');
+    return jwt.sign(
+        {
+            id : this._id,
+            username: this.username,
+            email: this.email
+        },
+        process.env.JWT_SECRET,
+        {expiresIn: '1d'}
+    )
+}
+
+module.exports = mongoose.model('User', UserSchema);
