@@ -41,7 +41,6 @@ exports.register = async (req, res) => {
     // Set token in cookie
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * 60 * 60 * 1000 // 1 day
     });
     
@@ -84,7 +83,6 @@ exports.login = async (req, res) => {
     // Set token in cookie
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * 60 * 60 * 1000 // 1 day
     });
     
