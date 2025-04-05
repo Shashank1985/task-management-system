@@ -25,3 +25,16 @@ exports.isAuthenticated = async (req,res,next) => {
         res.redirect('/auth/login')
     }
 }
+
+exports.isGuest =  (req,res,next) => {
+    const token = req.cookies.token
+    if (token){
+        try{
+            jwt.verify(token,process.env.JWT_SECRET)
+            return res.redirect('/dashboard')
+        }catch (error){
+            res.clearCookie('token')
+        }
+    }
+    next()
+}
